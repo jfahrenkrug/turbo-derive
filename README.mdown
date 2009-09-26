@@ -39,4 +39,6 @@ keyPathsForDerivedValues has to return the keyPaths for all the derived values o
 
 That's it! Now you should be able to receive KVO notifications for your derived values and they should be updated reliably when you change the properties they depend on.
 
+Note: only direct to-one and to-many relationships are supported!
+
 Please note: this is very, very alpha. Any input is appreciated.
