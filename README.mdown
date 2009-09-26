@@ -1,0 +1,42 @@
+Turbo Derive
+===
+
+Inspired by a session at the Macoun conference in Frankfurt in September 2009, I set out to make derived attributes in Core Data less of a pain.
+I coded this very first version in between 2 sessions and in my hotel room late at night, so please don't judge the quality too harshly. 
+
+So what does Turbo Derive do for you? Well, it helps you to define (hopefully) KVO-compliant derived properties in your NSManagedObject subclasses.
+
+Let's take the example of an Invoice which has many InvoiceItems. The InvoiceItem has an itemPrice and a quantity. What you want to derive from those two properties is a total. So the total needs to change each time either the itemPrice or the quantity changes. How do we do this?
+
+First of all, you make your model inherit from SWManagedObject instead of NSManagedObject. Next you define an NSNumber * total ivar in your InvoiceItem.h and a @property(readonly) NSNumber * total. Then you add @dynamic total; to your InvoiceItem.m.
+Next, you'll have to add these 4 methods to InvoiceItem.m:
+
+    - (NSNumber *)total {
+    	[self willAccessValueForKey:@"total"];
+    	return total;
+    	[self didAccessValueForKey:@"total"];
+    }
+
+    - (void)updateTotal {
+    	[self willChangeValueForKey:@"total"];
+    	NSNumber *oldTotal = total;
+    	total = [[NSNumber numberWithDouble:([self.itemPrice doubleValue] * [self.quantity intValue])] retain];
+    	[oldTotal release];
+    	[self didChangeValueForKey:@"total"];
+    }
+
+    + (NSSet *)keyPathsForDerivedValues
+    {
+    	return [NSSet setWithObjects:@"total", nil];
+    }
+
+    + (NSSet *)keyPathsForValuesAffectingDerivedTotal
+    {
+    	return [NSSet setWithObjects:@"itemPrice", @"quantity", nil];
+    }
+    
+keyPathsForDerivedValues has to return the keyPaths for all the derived values of your model. For each derived value you'll have to implement the keyPathsForValuesAffectingDerivedXXX method (where "XXX" in the capitalized name of your derived value) and have it return a set of the key paths that affect this derived value. Finally, you'll need the actual accessor and the updateXXX (where XXX is the capitalized name of your derived value) method that will re-calculate and update the derived value.
+
+That's it! Now you should be able to receive KVO notifications for your derived values and they should be updated reliably when you change the properties they depend on.
+
+Please note: this is very, very alpha. Any input is appreciated.
