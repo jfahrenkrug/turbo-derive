@@ -17,9 +17,7 @@
 @dynamic total;
 
 - (NSNumber *)total {
-	[self willAccessValueForKey:@"total"];
 	return total;
-	[self didAccessValueForKey:@"total"];
 }
 
 - (void)updateTotal {
