@@ -8,6 +8,10 @@
 
 #import "SWManagedObject.h"
 
+@interface SWManagedObject(PrivateMethods)
+- (NSString *)cappedString:(NSString *)aString;
+@end
+
 
 @implementation SWManagedObject
 
@@ -19,16 +23,16 @@
 		NSString *keyPath = nil;
 		
 		while (keyPath = [kpEnum nextObject]) {
-			NSLog(keyPath);
+			NSLog(@"%@", keyPath);
 			
-			NSEnumerator *derivedKpEnum = [[[self class] performSelector:NSSelectorFromString([@"keyPathsForValuesAffectingDerived" stringByAppendingString:[keyPath capitalizedString]])] objectEnumerator];
+			NSEnumerator *derivedKpEnum = [[[self class] performSelector:NSSelectorFromString([@"keyPathsForValuesAffectingDerived" stringByAppendingString:[self cappedString:keyPath]])] objectEnumerator];
 			
 			NSString *derivedKeyPath = nil;
 			
 			while (derivedKeyPath = [derivedKpEnum nextObject]) {
-				NSLog([keyPath stringByAppendingString:derivedKeyPath]);
+				NSLog(@"%@%@", keyPath, derivedKeyPath);
 				NSString * firstPartOfDerivedKeyPath = [[derivedKeyPath componentsSeparatedByString:@"."] objectAtIndex:0];
-				NSLog([@"First part to observe: " stringByAppendingString:firstPartOfDerivedKeyPath]);
+				NSLog(@"First part to observe: %@", firstPartOfDerivedKeyPath);
 				
 				// We will only observe the first part of any key. So if the key is invoiceItems.@sum.total we will only observe "invoiceItems"
 				[self addObserver:self
@@ -53,8 +57,8 @@
 	
 	while (kPath = [kpEnum nextObject]) {
 		if ([(NSString *)context isEqualToString:kPath]) {
-			NSLog([NSString stringWithFormat:@"path %@ which affects %@ changed.", keyPath, kPath]);
-			[self performSelector:NSSelectorFromString([@"update" stringByAppendingString:[kPath capitalizedString]])];
+			NSLog(@"path %@ which affects %@ changed.", (NSString *)keyPath, (NSString *)kPath);
+			[self performSelector:NSSelectorFromString([@"update" stringByAppendingString:[self cappedString:kPath]])];
 		}
 	}
 }
@@ -66,9 +70,9 @@
 	NSString *keyPath = nil;
 	
 	while (keyPath = [kpEnum nextObject]) {
-		NSLog(keyPath);
+		NSLog(@"%@", keyPath);
 		
-		NSEnumerator *derivedKpEnum = [[[self class] performSelector:NSSelectorFromString([@"keyPathsForValuesAffectingDerived" stringByAppendingString:[keyPath capitalizedString]])] objectEnumerator];
+		NSEnumerator *derivedKpEnum = [[[self class] performSelector:NSSelectorFromString([@"keyPathsForValuesAffectingDerived" stringByAppendingString:[self cappedString:keyPath]])] objectEnumerator];
 		
 		NSString *derivedKeyPath = nil;
 		
@@ -95,10 +99,20 @@
 												  forKeyPath:lastPartOfDerivedKeyPath];
 					}
 				}
-				[self performSelector:NSSelectorFromString([@"update" stringByAppendingString:[keyPath capitalizedString]])];
+				[self performSelector:NSSelectorFromString([@"update" stringByAppendingString:[self cappedString:keyPath]])];
 			}
 		}
 	}
 }
+
+- (NSString *)cappedString:(NSString *)aString {
+	if (aString && [aString length] > 0) {
+		NSString *firstCapChar = [[aString substringToIndex:1] capitalizedString];
+		return [aString stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:firstCapChar];
+	}
+	
+	return nil;
+}
+	
 
 @end
