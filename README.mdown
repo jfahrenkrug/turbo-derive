@@ -12,9 +12,7 @@ First of all, you make your model inherit from SWManagedObject instead of NSMana
 Next, you'll have to add these 4 methods to InvoiceItem.m:
 
     - (NSNumber *)total {
-    	[self willAccessValueForKey:@"total"];
     	return total;
-    	[self didAccessValueForKey:@"total"];
     }
 
     - (void)updateTotal {
