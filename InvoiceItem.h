@@ -10,7 +10,7 @@
 #import "SWManagedObject.h"
 
 
-@interface InvoiceItem :  SWManagedObject  <SWManagedObjectDelegate>
+@interface InvoiceItem :  SWManagedObject  <SWDerivedValues>
 {
 	NSNumber * total;
 }

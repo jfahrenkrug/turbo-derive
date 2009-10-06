@@ -11,7 +11,7 @@
 
 @class InvoiceItem;
 
-@interface Invoice :  SWManagedObject <SWManagedObjectDelegate>
+@interface Invoice :  SWManagedObject <SWDerivedValues>
 {
 	NSNumber * total;
 }

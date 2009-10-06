@@ -8,13 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
-@protocol SWManagedObjectDelegate
-+ (NSSet *)keyPathsForDerivedValues;
+
+@protocol SWDerivedValues
+
++ (NSSet *)keysToDerivedValues;
+
 @end
 
-@interface SWManagedObject : NSManagedObject {
-}
 
-- (id)initWithEntity:(NSEntityDescription *)invoiceItemEntity insertIntoManagedObjectContext:(NSManagedObjectContext *)context;
+@interface SWManagedObject : NSManagedObject
+{
+	NSMutableDictionary *_observersByObject;
+}
 
 @end

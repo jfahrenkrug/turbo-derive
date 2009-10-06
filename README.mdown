@@ -23,7 +23,7 @@ Next, you'll have to add these 4 methods to InvoiceItem.m:
     	[self didChangeValueForKey:@"total"];
     }
 
-    + (NSSet *)keyPathsForDerivedValues
+    + (NSSet *)keysToDerivedValues
     {
     	return [NSSet setWithObjects:@"total", nil];
     }
@@ -33,7 +33,7 @@ Next, you'll have to add these 4 methods to InvoiceItem.m:
     	return [NSSet setWithObjects:@"itemPrice", @"quantity", nil];
     }
     
-keyPathsForDerivedValues has to return the keyPaths for all the derived values of your model. For each derived value you'll have to implement the keyPathsForValuesAffectingDerivedXXX method (where "XXX" in the capitalized name of your derived value) and have it return a set of the key paths that affect this derived value. Finally, you'll need the actual accessor and the updateXXX (where XXX is the capitalized name of your derived value) method that will re-calculate and update the derived value.
+keysToDerivedValues has to return the keyPaths for all the derived values of your model. For each derived value you'll have to implement the keyPathsForValuesAffectingDerivedXXX method (where "XXX" in the capitalized name of your derived value) and have it return a set of the key paths that affect this derived value. Finally, you'll need the actual accessor and the updateXXX (where XXX is the capitalized name of your derived value) method that will re-calculate and update the derived value.
 
 That's it! Now you should be able to receive KVO notifications for your derived values and they should be updated reliably when you change the properties they depend on.
 

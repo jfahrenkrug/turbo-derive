@@ -28,7 +28,7 @@
 	[self didChangeValueForKey:@"total"];
 }
 
-+ (NSSet *)keyPathsForDerivedValues
++ (NSSet *)keysToDerivedValues
 {
 	return [NSSet setWithObjects:@"total", nil];
 }
