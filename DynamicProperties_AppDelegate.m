@@ -67,11 +67,11 @@
 	
 	[newInvoice addItems:[NSSet setWithObjects:newInvoiceItem, newInvoiceItem2, nil]];
 	
-	NSLog(@"Invoice Total: %@", newInvoice.total);
+	NSLog(@"Invoice Total: %@", newInvoice.totalSum);
 	newInvoiceItem.itemPrice = [NSNumber numberWithDouble:8.78];
-	NSLog(@"Invoice Total2: %@", newInvoice.total);
+	NSLog(@"Invoice Total2: %@", newInvoice.totalSum);
 	[newInvoice removeItems:[NSSet setWithObject:newInvoiceItem2]];
-	NSLog(@"Invoice Total3: %@", newInvoice.total);
+	NSLog(@"Invoice Total3: %@", newInvoice.totalSum);
 }
 
 

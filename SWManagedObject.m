@@ -83,7 +83,7 @@
 		NSSet *keysToDerivedValues = [[self class] keysToDerivedValues];
 		
 		for (NSString *derivedKey in keysToDerivedValues) {
-			NSString *capitalizedKey = [derivedKey capitalizedString];
+			NSString *capitalizedKey = [derivedKey cappedString];
 			SEL selector= NSSelectorFromString([@"keyPathsForValuesAffectingDerived" stringByAppendingString:capitalizedKey]);
 			NSArray *keyPathsForBaseValues = [[self class] performSelector:selector];
 			
@@ -112,7 +112,7 @@
 	NSSet *keysToDerivedValues = [[self class] keysToDerivedValues];
 	
 	for (NSString *derivedKey in keysToDerivedValues) {
-		NSString *capitalizedKey = [derivedKey capitalizedString];
+		NSString *capitalizedKey = [derivedKey cappedString];
 		SEL selector = NSSelectorFromString([@"keyPathsForValuesAffectingDerived" stringByAppendingString:capitalizedKey]);
 		NSArray *keyPathsForBaseValues = [[self class] performSelector:selector];
 		

@@ -16,25 +16,25 @@
 @dynamic number;
 @dynamic paid;
 @dynamic items;
-@dynamic total;
+@dynamic totalSum;
 
-- (NSNumber *)total {
-	return total;
+- (NSNumber *)totalSum {
+	return totalSum;
 }
 
-- (void)updateTotal {
-	NSNumber *oldTotal = total;
-	total = [[self valueForKeyPath:@"items.@sum.total"] retain];
-	[oldTotal release];
+- (void)updateTotalSum {
+	NSNumber *oldTotalSum = totalSum;
+	totalSum = [[self valueForKeyPath:@"items.@sum.total"] retain];
+	[oldTotalSum release];
 }
 
 
 + (NSSet *)keysToDerivedValues
 {
-	return [NSSet setWithObjects:@"total", nil];
+	return [NSSet setWithObjects:@"totalSum", nil];
 }
 
-+ (NSSet *)keyPathsForValuesAffectingDerivedTotal
++ (NSSet *)keyPathsForValuesAffectingDerivedTotalSum
 {
 	return [NSSet setWithObjects:@"items.@sum.total", nil];
 }

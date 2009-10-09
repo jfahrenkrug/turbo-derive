@@ -13,14 +13,14 @@
 
 @interface Invoice :  SWManagedObject <SWDerivedValues>
 {
-	NSNumber * total;
+	NSNumber * totalSum;
 }
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * number;
 @property (nonatomic, retain) NSNumber * paid;
 @property (nonatomic, retain) NSSet* items;
-@property (readonly) NSNumber * total;
+@property (readonly) NSNumber * totalSum;
 
 @end
 
